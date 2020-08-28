@@ -1,0 +1,64 @@
+service:
+  name: transaction-service
+
+plugins:
+  - serverless-bundle
+  - serverless-pseudo-parameters
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  memorySize: 256
+  stage: ${opt:stage, 'dev'}
+  region: eu-west-1
+  environment:
+    TRANSACTIONS_TABLE_NAME: ${self:custom.TransactionsTable.name}
+  iamRoleStatements:
+    - ${file(iam/TransactionsTableIAM.yml):TransactionsTableIAM}
+
+resources:
+  Resources:
+    TransactionsTable: ${file(resources/TransactionsTable.yml):TransactionsTable}
+
+functions:
+  createTransaction:
+    handler: src/handlers/createTransaction.handler
+    events:
+      - http:
+          method: POST
+          path: /transaction
+
+  getTransactions:
+    handler: src/handlers/getTransactions.handler
+    events:
+      - http:
+          method: GET
+          path: /transactions
+
+  getTransaction:
+    handler: src/handlers/getTransaction.handler
+    events:
+      - http:
+          method: GET
+          path: /transaction/{id}
+
+  updateTransaction:
+    handler: src/handlers/updateTransaction.handler
+    events:
+      - http:
+          method: PUT
+          path: /transaction/{id}
+
+  deleteTransaction:
+    handler: src/handlers/deleteTransaction.handler
+    events:
+      - http:
+          method: DELETE
+          path: /transaction/{id}
+
+custom:
+  TransactionsTable:
+    name: !Ref TransactionsTable
+    arn: !GetAtt TransactionsTable.Arn
+  bundle:
+    linting: false
