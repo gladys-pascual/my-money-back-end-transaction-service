@@ -1,7 +1,7 @@
 # Money-Me 
 
 - The purpose of this code is to create and deploy a CRUD (Create, Read, Update and Delete) service for my money-me app.
-- I creatred and deployed AWS lambda functions and expose them as RESTful APIs using Amazon API Gateway. 
+- I created and deployed AWS lambda functions and expose them as RESTful APIs using Amazon API Gateway. 
 - I utilized a powerful Node.js middleware, middy, to make my development simpler.
   
 
