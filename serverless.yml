@@ -27,6 +27,7 @@ functions:
       - http:
           method: POST
           path: /transaction
+          cors: true
 
   getTransactions:
     handler: src/handlers/getTransactions.handler
@@ -34,6 +35,7 @@ functions:
       - http:
           method: GET
           path: /transactions
+          cors: true
 
   getTransaction:
     handler: src/handlers/getTransaction.handler
@@ -41,6 +43,7 @@ functions:
       - http:
           method: GET
           path: /transaction/{id}
+          cors: true
 
   updateTransaction:
     handler: src/handlers/updateTransaction.handler
@@ -48,6 +51,7 @@ functions:
       - http:
           method: PUT
           path: /transaction/{id}
+          cors: true
 
   deleteTransaction:
     handler: src/handlers/deleteTransaction.handler
@@ -55,6 +59,7 @@ functions:
       - http:
           method: DELETE
           path: /transaction/{id}
+          cors: true
 
 custom:
   TransactionsTable:
