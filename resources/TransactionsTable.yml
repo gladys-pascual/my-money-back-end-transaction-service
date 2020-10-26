@@ -6,6 +6,15 @@ TransactionsTable:
     AttributeDefinitions:
       - AttributeName: id
         AttributeType: S
+      - AttributeName: user
+        AttributeType: S
     KeySchema:
       - AttributeName: id
         KeyType: HASH
+    GlobalSecondaryIndexes:
+      - IndexName: user
+        KeySchema:
+          - AttributeName: user
+            KeyType: HASH
+        Projection:
+          ProjectionType: ALL

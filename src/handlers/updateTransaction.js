@@ -6,26 +6,18 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 async function updateTransaction(event, context) {
   const { id } = event.pathParameters;
-  const { type, category, amount, date, username, notes } = event.body;
-
-  console.log("type", type);
-  console.log("category", category);
-  console.log("amount", amount);
-  console.log("date", date);
-  console.log("username", username);
-  console.log("notes", notes);
-  console.log("id", id);
-
+  const { type, category, amount, date, user, notes } = event.body;
   const params = {
     TableName: process.env.TRANSACTIONS_TABLE_NAME,
     Key: { id },
     UpdateExpression:
-      "set #type = :type, #date = :date, #category = :category, #amount = :amount, #notes = :notes",
+      "set #type = :type, #date = :date, #category = :category, #amount = :amount, #user = :user, #notes = :notes",
     ExpresionAttributeValues: {
       ":type": type,
+      ":date": date,
       ":category": category,
       ":amount": amount,
-      ":date": date,
+      ":user": user,
       ":notes": notes,
     },
     ExpressionAttributeNames: {
@@ -33,6 +25,7 @@ async function updateTransaction(event, context) {
       "#date": "date",
       "#category": "category",
       "#amount": "amount",
+      "#user": "user",
       "#notes": "notes",
     },
     ReturnValues: "UPDATED_NEW",

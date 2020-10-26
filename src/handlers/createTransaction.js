@@ -6,16 +6,16 @@ import createError from "http-errors";
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 async function createTransaction(event, context) {
-  const { type, category, amount, date, username, notes } = event.body;
-
+  const { type, category, amount, date, user, notes } = event.body;
+  const { email } = event.requestContext.authorizer;
   const transaction = {
     id: uuid(),
     type,
     category,
     amount,
     date,
-    username,
     notes,
+    user: email,
   };
 
   try {

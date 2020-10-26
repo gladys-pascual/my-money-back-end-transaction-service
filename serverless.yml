@@ -28,6 +28,7 @@ functions:
           method: POST
           path: /transaction
           cors: true
+          authorizer: ${self:custom.authorizer}
 
   getTransactions:
     handler: src/handlers/getTransactions.handler
@@ -36,6 +37,7 @@ functions:
           method: GET
           path: /transactions
           cors: true
+          authorizer: ${self:custom.authorizer}
 
   getTransaction:
     handler: src/handlers/getTransaction.handler
@@ -44,6 +46,7 @@ functions:
           method: GET
           path: /transaction/{id}
           cors: true
+          authorizer: ${self:custom.authorizer}
 
   updateTransaction:
     handler: src/handlers/updateTransaction.handler
@@ -52,6 +55,7 @@ functions:
           method: PUT
           path: /transaction/{id}
           cors: true
+          authorizer: ${self:custom.authorizer}
 
   deleteTransaction:
     handler: src/handlers/deleteTransaction.handler
@@ -59,9 +63,11 @@ functions:
       - http:
           method: DELETE
           path: /transaction/{id}
+          authorizer: ${self:custom.authorizer}
           cors: true
 
 custom:
+  authorizer: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:auth-service-${self:provider.stage}-auth
   TransactionsTable:
     name: !Ref TransactionsTable
     arn: !GetAtt TransactionsTable.Arn
